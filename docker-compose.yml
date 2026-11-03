@@ -1,0 +1,43 @@
+# Open WebUI via Docker Compose.
+#
+#   Ollama installed on the host (default):
+#       docker compose up -d
+#   Ollama also in a container (no host install needed):
+#       echo "OLLAMA_BASE_URL=http://ollama:11434" >> .env
+#       docker compose --profile bundled up -d
+#
+# If Ollama runs on the host, make it listen beyond localhost first:
+#       ./scripts/02-install-ollama.sh --expose
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: always
+    ports:
+      - "${WEBUI_PORT:-3000}:8080"
+    environment:
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - open-webui:/app/backend/data
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    profiles: ["bundled"]
+    restart: always
+    volumes:
+      - ollama:/root/.ollama
+    # Uncomment for NVIDIA GPUs (needs nvidia-container-toolkit):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+volumes:
+  open-webui:
+  ollama:

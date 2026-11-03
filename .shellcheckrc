@@ -1,0 +1,7 @@
+# Picked up automatically by ShellCheck (locally and in CI).
+# Resolve `source=` paths relative to each script's own folder, and follow them.
+source-path=SCRIPTDIR
+external-sources=true
+# SC1091: "Not following" a sourced file (info only).
+# SC2015: `A && B || C` style note (info only).
+disable=SC1091,SC2015

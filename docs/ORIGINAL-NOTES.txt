@@ -1,0 +1,47 @@
+For Docker Installation
+sudo dnf install -y dnf-plugins-core && sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo && sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo chmod 666 /var/run/docker.sock
+## FIREWALL SETTING
+sudo firewall-cmd --permanent --add-port=8080/tcp && sudo firewall-cmd --permanent --add-service=http && sudo firewall-cmd --reload
+docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+
+sudo dnf install zstd -y
+curl -fsSL https://ollama.com/install.sh | sh
+
+ollama pull gemma
+ollama pull deepseek
+-------------------------------------
+START HERE : https://bit.ly/VMSnAI
+-------------------------------------
+## PRE-INSTALLED PACKAGES AND EXECUTED COMMANDS
+####For Docker Installation
+sudo dnf install -y dnf-plugins-core && sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo && sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+#### FOR Z-Archiving Tool  and (TAR) - Tape Archive
+sudo dnf install zstd -y
+***sudo dnf install tar zstd -y
+
+## FOR DOCKER DEAMON START
+sudo systemctl enable docker && sudo systemctl start docker
+sudo chmod 666 /var/run/docker.sock
+
+##### IMAGE PULLING
+docker pull ghcr.io/open-webui/open-webui:main
+
+#### OLAMA INSTALLATION AND LLM PULLING
+curl -fsSL https://ollama.com/install.sh | sh && ollama pull deepseek-r1:1.5b
+ollama pull mistral && ollama pull smollm2:1.7b
+---------------------------------------------------------------
+*sudo systemctl enable docker
+*sudo systemctl start docker
+sudo chmod 666 /var/run/docker.sock
+
+docker run -d --network=host -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://127.0.0.1:11434 --name open-webui --restart always ghcr.io/open-webui/open-webui:main
+
+http://<192.168.10.4>:8080/
+
+
+-------------------------------------
+docker rm -f open-webui
+docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data -e OLLAMA_BASE_URL=http://docker.internal --name open-webui --restart always ghcr.io/open-webui/open-webui:main
